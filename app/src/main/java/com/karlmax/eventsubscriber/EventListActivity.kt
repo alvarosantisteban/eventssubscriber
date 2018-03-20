@@ -20,7 +20,7 @@ class EventListActivity : AppCompatActivity() {
         fab.setOnClickListener { view ->
             val builder = AlertDialog.Builder(this)
 
-            builder.setView(layoutInflater.inflate(R.layout.subscribe_dialog, eventListSwypeToRefresh))
+            builder.setView(layoutInflater.inflate(R.layout.subscribe_dialog, eventListSwypeToRefresh, false))
                     .setPositiveButton(R.string.organizer_subscriber_subscribe_button, { dialog, id ->
                         // TODO Search in Fb API if there is an ID for the provided string. If yes, add the ID as Organizer, If no, display error message
                     }).show()

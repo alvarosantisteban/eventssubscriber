@@ -13,7 +13,11 @@ class OrganizerKeyPersistor {
 
     fun getPersistedKeys(context: Context): ArrayList<String> {
         val prefs = context.getSharedPreferences(PERSISTOR_PREF_NAME, Context.MODE_PRIVATE)
-        return ArrayList(prefs.getString(PERSISTOR_ORGANIZER_KEY_KEY, "").split(";").map { it })
+        val organizerRawString = prefs.getString(PERSISTOR_ORGANIZER_KEY_KEY, "")
+        return if (organizerRawString.isNotBlank())
+            ArrayList(organizerRawString.split(";").map { it })
+        else
+            ArrayList()
     }
 
     fun persistKey(context: Context, key: String) {

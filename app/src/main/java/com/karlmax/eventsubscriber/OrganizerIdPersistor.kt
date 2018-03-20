@@ -19,6 +19,16 @@ class OrganizerIdPersistor {
     fun persistId(context: Context, id: Long) {
         val keys = getPersistedIds(context)
         keys.add(id)
+        persistIdList(context, keys)
+    }
+
+    fun removeId(context: Context, id: Long) {
+        val keys = getPersistedIds(context)
+        keys.remove(id)
+        persistIdList(context, keys)
+    }
+
+    private fun persistIdList(context: Context, keys: ArrayList<Long>) {
         context.getSharedPreferences(ID_PERSITOR_PREF_NAME, Context.MODE_PRIVATE).edit()
                 .putString(ID_PERSITOR_ID_KEY, keys.joinToString(SEPERATOR)).apply()
     }

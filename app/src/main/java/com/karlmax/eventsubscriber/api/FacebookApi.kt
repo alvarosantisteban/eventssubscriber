@@ -1,6 +1,7 @@
 package com.karlmax.eventsubscriber.api
 
-import com.karlmax.eventsubscriber.entities.EventOrganizerContainer
+import com.karlmax.eventsubscriber.entities.EventContainer
+import com.karlmax.eventsubscriber.entities.EventOrganizer
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -18,5 +19,5 @@ interface FacebookApi {
     fun getOrganizersId(@Query("type") type: String,
                         @Query("q") organizersName: String,
                         @Query("fields") fields: String,
-                        @Query("access_token") apiaccessToken: String): Call<EventOrganizerContainer>
+                        @Query("access_token") apiaccessToken: String): Call<EventContainer<EventOrganizer>>
 }

@@ -2,25 +2,30 @@ package com.karlmax.eventsubscriber.entities
 
 import android.content.Context
 import android.text.format.DateFormat
+import com.google.gson.annotations.SerializedName
 import com.karlmax.eventsubscriber.R
+import java.text.SimpleDateFormat
 import java.util.*
 
 data class Event(val id: Long,
                  val name: String,
                  val description: String,
-                 val startTime: Long,
-                 val endTime: Long,
+                 @SerializedName("start_time") val startTime: String?,
+                 @SerializedName("end_time") val endTime: String?,
                  val place: EventPlace) {
 
     fun getStartTimeFormatted(context: Context) =
-            context.getString(R.string.event_start_date, getDate(startTime))!!
+            context.getString(R.string.event_start_date, reformatDate(startTime))!!
 
     fun getEndTimeFormatted(context: Context) =
-            context.getString(R.string.event_end_date, getDate(endTime))!!
+            context.getString(R.string.event_end_date, reformatDate(endTime))!!
 
-    private fun getDate(time: Long): String {
-        val cal = Calendar.getInstance(Locale.ENGLISH)
-        cal.timeInMillis = time
-        return DateFormat.format("dd-MM-yyyy hh:mm", cal).toString()
+    private fun reformatDate(time: String?): String {
+        return time?.let {
+            val df = SimpleDateFormat("yyyy-mm-dd'T'HH:mm:ssZ", Locale.ENGLISH)
+            val cal = Calendar.getInstance(Locale.ENGLISH)
+            cal.timeInMillis = df.parse(it).time
+            DateFormat.format("dd.MM.yyyy hh:mm", cal).toString()
+        } ?: ""
     }
 }

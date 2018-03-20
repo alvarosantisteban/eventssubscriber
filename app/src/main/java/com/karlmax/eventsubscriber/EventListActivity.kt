@@ -3,6 +3,7 @@ package com.karlmax.eventsubscriber
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_event_list.*
 import kotlinx.android.synthetic.main.content_event_list.*
@@ -31,6 +32,7 @@ class EventListActivity : AppCompatActivity() {
         eventList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         eventListAdapter = EventListAdapter()
         eventList.adapter = eventListAdapter
+        eventList.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         updateEventList()
     }
 

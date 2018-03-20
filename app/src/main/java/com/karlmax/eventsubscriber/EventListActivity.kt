@@ -6,9 +6,11 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
+import android.view.View
+import android.widget.EditText
 import kotlinx.android.synthetic.main.activity_event_list.*
 import kotlinx.android.synthetic.main.content_event_list.*
-
 
 class EventListActivity : AppCompatActivity() {
 
@@ -28,7 +30,14 @@ class EventListActivity : AppCompatActivity() {
 
             builder.setView(layoutInflater.inflate(R.layout.subscribe_dialog, eventListSwypeToRefresh, false))
                     .setPositiveButton(R.string.organizer_subscriber_subscribe_button, { dialog, id ->
-                        // TODO Search in Fb API if there is an ID for the provided string. If yes, add the ID as Organizer, If no, display error message
+                        // TODO Search in Fb API if there is an ID for the provided string.
+                        // If yes, add the ID as Organizer, If no, display error message
+
+                        val dialogView = layoutInflater.inflate(R.layout.subscribe_dialog, eventListSwypeToRefresh, false)
+                        val editText = dialogView.findViewById<View>(R.id.dialogOrganizer) as EditText
+                        val organizersName = editText.text.toString()
+                        val persistor = OrganizerKeyPersistor()
+                        persistor.persistKey(this, organizersName)
                     }).show()
         }
 
@@ -39,11 +48,16 @@ class EventListActivity : AppCompatActivity() {
                 .putExtra(EventDetailsActivity.EVENT_ID_SER, it.id)) }
         eventList.adapter = eventListAdapter
         eventList.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+
         updateEventList()
     }
 
     private fun updateEventList() {
-        ModelProvider.provideEvents ("ceremonies.berlin"){ // FIXME Substitute this hardcoded string for the one obtained from dialog
+        val persistor = OrganizerKeyPersistor()
+        Log.d(TAG, "Keys: " +persistor.getPersistedKeys(this).joinToString())
+
+        val organizer = persistor.getPersistedKeys(this).get(0)
+        ModelProvider.provideEvents (organizer){
             eventListAdapter.items = it
             eventListSwypeToRefresh.isRefreshing = false
         }

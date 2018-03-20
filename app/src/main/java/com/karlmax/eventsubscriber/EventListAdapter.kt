@@ -1,7 +1,6 @@
 package com.karlmax.eventsubscriber
 
 import android.support.v7.widget.RecyclerView
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.karlmax.eventsubscriber.EventListAdapter.EventListViewHolder
@@ -28,17 +27,10 @@ class EventListAdapter : RecyclerView.Adapter<EventListViewHolder>() {
         fun bind(event: Event) {
             itemView.apply {
                 name.text = event.name
-                startTime.text = context.getString(R.string.event_start_date, getDate(event.startTime))
-                endTime.text = context.getString(R.string.event_end_date, getDate(event.endTime))
-                address.text = context.getString(R.string.event_address, event.place.name, event.place.street,
-                        event.place.zip, event.place.city, event.place.country)
+                startTime.text = event.getStartTimeFormatted(context)
+                endTime.text = event.getEndTimeFormatted(context)
+                address.text = event.place.getAddressFormatted(context)
             }
-        }
-
-        private fun getDate(time: Long): String {
-            val cal = Calendar.getInstance(Locale.ENGLISH)
-            cal.timeInMillis = time
-            return DateFormat.format("dd-MM-yyyy hh:mm", cal).toString()
         }
     }
 }

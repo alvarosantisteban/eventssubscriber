@@ -1,6 +1,5 @@
 package com.karlmax.eventsubscriber
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -20,10 +19,9 @@ class EventListActivity : AppCompatActivity() {
 
         fab.setOnClickListener { view ->
             val builder = AlertDialog.Builder(this)
-            val inflater = getLayoutInflater()
 
-            builder.setView(inflater.inflate(R.layout.subscribe_dialog, null))
-                    .setPositiveButton(R.string.organizer_subscriber_subscribe_button, DialogInterface.OnClickListener { dialog, id ->
+            builder.setView(layoutInflater.inflate(R.layout.subscribe_dialog, eventListSwypeToRefresh))
+                    .setPositiveButton(R.string.organizer_subscriber_subscribe_button, { dialog, id ->
                         // TODO Search in Fb API if there is an ID for the provided string. If yes, add the ID as Organizer, If no, display error message
                     }).show()
         }

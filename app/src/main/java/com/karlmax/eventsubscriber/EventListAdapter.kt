@@ -8,7 +8,7 @@ import com.karlmax.eventsubscriber.entities.Event
 import kotlinx.android.synthetic.main.item_event_list.view.*
 import java.util.*
 
-class EventListAdapter : RecyclerView.Adapter<EventListViewHolder>() {
+class EventListAdapter(private val listener: (Event) -> Unit) : RecyclerView.Adapter<EventListViewHolder>() {
 
     var items = ArrayList<Event>()
         set(value) {
@@ -19,17 +19,19 @@ class EventListAdapter : RecyclerView.Adapter<EventListViewHolder>() {
     override fun getItemCount() = items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        EventListViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_event_list, parent, false) as ViewGroup)
+        EventListViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_event_list, parent,
+                false) as ViewGroup, listener)
 
-    override fun onBindViewHolder(holder: EventListViewHolder, position: Int) = holder.bind(items[position]) as Unit
+    override fun onBindViewHolder(holder: EventListViewHolder, position: Int) = holder.bind(items[position])
 
-    class EventListViewHolder(itemView: ViewGroup) : RecyclerView.ViewHolder(itemView) {
+    class EventListViewHolder(itemView: ViewGroup, private val listener: (Event) -> Unit) : RecyclerView.ViewHolder(itemView) {
         fun bind(event: Event) {
             itemView.apply {
                 name.text = event.name
                 startTime.text = event.getStartTimeFormatted(context)
                 endTime.text = event.getEndTimeFormatted(context)
-                address.text = event.place.getAddressFormatted(context)
+
+                setOnClickListener { listener(event) }
             }
         }
     }

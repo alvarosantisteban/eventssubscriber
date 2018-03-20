@@ -8,7 +8,7 @@ import retrofit2.http.Query
 /**
  * The interface to communicate with Facebook's Graph API using Retrofit.
  */
-interface FacebookAPI {
+interface FacebookApi {
 
     companion object {
         const val FACEBOOK_GRAPH_BASE_URL = "https://graph.facebook.com/v2.12/"

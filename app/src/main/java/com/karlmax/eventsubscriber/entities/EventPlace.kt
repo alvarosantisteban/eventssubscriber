@@ -5,13 +5,8 @@ import com.karlmax.eventsubscriber.R
 
 data class EventPlace(val id: Long,
                       val name: String,
-                      val country: String,
-                      val city: String,
-                      val street: String,
-                      val zip: String,
-                      val latitude: Double,
-                      val longitude: Double) {
+                      val location: EventLocation) {
 
     fun getAddressFormatted(context: Context) =
-            context.getString(R.string.event_address, name, street, zip, city, country)!!
+            context.getString(R.string.event_address, name, location.street, location.zip, location.city, location.country)!!
 }

@@ -1,5 +1,6 @@
 package com.karlmax.eventsubscriber
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -34,7 +35,8 @@ class EventListActivity : AppCompatActivity() {
         eventListSwypeToRefresh.setOnRefreshListener { updateEventList() }
 
         eventList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        eventListAdapter = EventListAdapter()
+        eventListAdapter = EventListAdapter { startActivity(Intent(this, EventDetailsActivity::class.java)
+                .putExtra(EventDetailsActivity.EVENT_ID_SER, it.id)) }
         eventList.adapter = eventListAdapter
         eventList.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         updateEventList()

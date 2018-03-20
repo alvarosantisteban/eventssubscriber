@@ -1,12 +1,13 @@
 package com.karlmax.eventsubscriber
 
+import android.content.DialogInterface
 import android.os.Bundle
-import android.support.design.widget.Snackbar
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-
 import kotlinx.android.synthetic.main.activity_event_list.*
+
 
 class EventListActivity : AppCompatActivity() {
 
@@ -16,12 +17,13 @@ class EventListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            // FIXME Substitute this snackbar for the dialog where the event's organizer's name
-            // will be given
+            val builder = AlertDialog.Builder(this)
+            val inflater = getLayoutInflater()
 
-            Snackbar.make(view, "Please provide the Fb name of the event's organizer", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-
+            builder.setView(inflater.inflate(R.layout.subscribe_dialog, null))
+                    .setPositiveButton(R.string.organizer_subscriber_subscribe_button, DialogInterface.OnClickListener { dialog, id ->
+                        // TODO Search in Fb API if there is an ID for the provided string. If yes, add the ID as Organizer, If no, display error message
+                    }).show()
         }
     }
 

@@ -4,11 +4,24 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
+import com.google.gson.GsonBuilder
+import com.karlmax.eventsubscriber.api.FacebookAPI
+import com.karlmax.eventsubscriber.entities.EventOrganizerContainer
 import kotlinx.android.synthetic.main.activity_event_list.*
 import kotlinx.android.synthetic.main.content_event_list.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 
-class EventListActivity : AppCompatActivity() {
+class EventListActivity : AppCompatActivity(), Callback<EventOrganizerContainer> {
+
+    companion object {
+        @JvmField val TAG: String = EventListActivity::class.java.simpleName
+    }
 
     private lateinit var eventListAdapter: EventListAdapter
 
@@ -32,6 +45,8 @@ class EventListActivity : AppCompatActivity() {
         eventListAdapter = EventListAdapter()
         eventList.adapter = eventListAdapter
         updateEventList()
+
+        logOrganizersId()
     }
 
     private fun updateEventList() {
@@ -39,5 +54,39 @@ class EventListActivity : AppCompatActivity() {
             eventListAdapter.items = it
             eventListSwypeToRefresh.isRefreshing = false
         }
+    }
+
+    fun logOrganizersId() {
+
+        val retrofit = Retrofit.Builder()
+                .baseUrl(FacebookAPI.FACEBOOK_GRAPH_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+                .build()
+
+        val facebookGraphAPI = retrofit.create(FacebookAPI::class.java)
+
+        val call: Call<EventOrganizerContainer> = facebookGraphAPI.getOrganizersId(
+                type = "place",
+                organizersName = "ceremonies.berlin", // FIXME Substitute this hardcoded string for the one obtained from dialog
+                fields = "name",
+                apiaccessToken = BuildConfig.FacebookDevToken)
+        call.enqueue(this)
+    }
+
+    override fun onResponse(call: Call<EventOrganizerContainer>, response: Response<EventOrganizerContainer>) {
+        if (response.isSuccessful()) {
+            val data = response.body()
+            if (data != null) {
+                Log.d(TAG, "The organizer: " +data.eventOrganizer.get(0).name +" has the id: " +data.eventOrganizer.get(0).id)
+            } else {
+                Log.e(TAG, "The organizer is null")
+            }
+        } else {
+            Log.e(TAG, "onResponse: " +response.code() + " |" +response.raw().request().url())
+        }
+    }
+
+    override fun onFailure(call: Call<EventOrganizerContainer>, t: Throwable) {
+        Log.e(TAG, "onFailure: " + t.toString())
     }
 }

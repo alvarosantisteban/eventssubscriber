@@ -1,6 +1,8 @@
 package com.karlmax.eventsubscriber.entities
 
-data class EventOrganizer(val id: Long,
-                          val name: String,
-                          val address: String,
-                          val events: List<Event>)
+import com.google.gson.annotations.SerializedName
+
+data class EventOrganizer(@SerializedName("id") val id: Long,
+                          @SerializedName("name") val name: String,
+                          @SerializedName("address") val address: String,
+                          @SerializedName("events")  val events: List<Event>)

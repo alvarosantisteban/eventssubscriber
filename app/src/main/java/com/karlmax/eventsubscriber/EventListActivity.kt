@@ -3,6 +3,7 @@ package com.karlmax.eventsubscriber
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import com.google.gson.GsonBuilder
@@ -44,6 +45,7 @@ class EventListActivity : AppCompatActivity(), Callback<EventOrganizerContainer>
         eventList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         eventListAdapter = EventListAdapter()
         eventList.adapter = eventListAdapter
+        eventList.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         updateEventList()
 
         logOrganizersId()

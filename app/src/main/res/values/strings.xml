@@ -5,4 +5,8 @@
     <string name="organizer_subscriber_tag">Please write down the organizer\'s name exactly as it is displayed in the Facebook site to subscribe to its events</string>
     <string name="organizer_subscriber_hint">Paste the organizer\'s name here</string>
     <string name="organizer_subscriber_subscribe_button">Subscribe</string>
+
+    <string name="event_start_date">start at %1$s</string>
+    <string name="event_end_date">end at %1$s</string>
+    <string name="event_address">%1$s\n%2$s\n%3$s %4$s\n%5$s</string>
 </resources>

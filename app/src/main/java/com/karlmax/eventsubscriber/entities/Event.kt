@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.format.DateFormat
 import com.google.gson.annotations.SerializedName
 import com.karlmax.eventsubscriber.R
+import java.text.SimpleDateFormat
 import java.util.*
 
 data class Event(val id: Long,
@@ -14,14 +15,15 @@ data class Event(val id: Long,
                  val place: EventPlace) {
 
     fun getStartTimeFormatted(context: Context) =
-            context.getString(R.string.event_start_date, startTime)!!
+            context.getString(R.string.event_start_date, reformatDate(startTime))!!
 
     fun getEndTimeFormatted(context: Context) =
-            context.getString(R.string.event_end_date, endTime)!!
+            context.getString(R.string.event_end_date, reformatDate(endTime))!!
 
-    private fun getDate(time: Long): String {
+    private fun reformatDate(time: String): String {
+        val df = SimpleDateFormat("yyyy-mm-dd'T'HH:mm:ssZ", Locale.ENGLISH)
         val cal = Calendar.getInstance(Locale.ENGLISH)
-        cal.timeInMillis = time
-        return DateFormat.format("dd-MM-yyyy hh:mm", cal).toString()
+        cal.timeInMillis = df.parse(time).time
+        return DateFormat.format("dd.MM.yyyy hh:mm", cal).toString()
     }
 }

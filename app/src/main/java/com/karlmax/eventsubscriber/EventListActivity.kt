@@ -16,8 +16,12 @@ class EventListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            // FIXME Substitute this snackbar for the dialog where the event's organizer's name
+            // will be given
+
+            Snackbar.make(view, "Please provide the Fb name of the event's organizer", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
+
         }
     }
 

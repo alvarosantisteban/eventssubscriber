@@ -70,7 +70,7 @@ class EventListActivity : AppCompatActivity(), Callback<EventOrganizerContainer>
         val call: Call<EventOrganizerContainer> = facebookGraphAPI.getOrganizersId(
                 type = "place",
                 organizersName = "ceremonies.berlin", // FIXME Substitute this hardcoded string for the one obtained from dialog
-                fields = "name",
+                fields = "name,events",
                 apiaccessToken = BuildConfig.FacebookDevToken)
         call.enqueue(this)
     }
@@ -80,6 +80,7 @@ class EventListActivity : AppCompatActivity(), Callback<EventOrganizerContainer>
             val data = response.body()
             if (data != null) {
                 Log.d(TAG, "The organizer: " +data.eventOrganizer.get(0).name +" has the id: " +data.eventOrganizer.get(0).id)
+                Log.d(TAG, "The first event has the name: " +data.eventOrganizer.get(0).eventsContainer.events.get(0).name)
             } else {
                 Log.e(TAG, "The organizer is null")
             }

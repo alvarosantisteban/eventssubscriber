@@ -10,8 +10,8 @@ import java.util.*
 data class Event(val id: Long,
                  val name: String,
                  val description: String,
-                 @SerializedName("start_time") val startTime: String,
-                 @SerializedName("end_time") val endTime: String,
+                 @SerializedName("start_time") val startTime: String?,
+                 @SerializedName("end_time") val endTime: String?,
                  val place: EventPlace) {
 
     fun getStartTimeFormatted(context: Context) =
@@ -20,10 +20,12 @@ data class Event(val id: Long,
     fun getEndTimeFormatted(context: Context) =
             context.getString(R.string.event_end_date, reformatDate(endTime))!!
 
-    private fun reformatDate(time: String): String {
-        val df = SimpleDateFormat("yyyy-mm-dd'T'HH:mm:ssZ", Locale.ENGLISH)
-        val cal = Calendar.getInstance(Locale.ENGLISH)
-        cal.timeInMillis = df.parse(time).time
-        return DateFormat.format("dd.MM.yyyy hh:mm", cal).toString()
+    private fun reformatDate(time: String?): String {
+        return time?.let {
+            val df = SimpleDateFormat("yyyy-mm-dd'T'HH:mm:ssZ", Locale.ENGLISH)
+            val cal = Calendar.getInstance(Locale.ENGLISH)
+            cal.timeInMillis = df.parse(it).time
+            DateFormat.format("dd.MM.yyyy hh:mm", cal).toString()
+        } ?: ""
     }
 }

@@ -32,5 +32,6 @@ class EventDetailsActivity : AppCompatActivity() {
         startTime.text = event.getStartTimeFormatted(this)
         endTime.text = event.getEndTimeFormatted(this)
         address.text = event.place.getAddressFormatted(this)
+        description.text = event.description
     }
 }

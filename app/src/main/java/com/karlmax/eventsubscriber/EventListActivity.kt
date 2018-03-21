@@ -26,14 +26,14 @@ class EventListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
+            val dialogView = layoutInflater.inflate(R.layout.subscribe_dialog, eventListSwypeToRefresh, false)
             val builder = AlertDialog.Builder(this)
 
-            builder.setView(layoutInflater.inflate(R.layout.subscribe_dialog, eventListSwypeToRefresh, false))
+            builder.setView(dialogView)
                     .setPositiveButton(R.string.organizer_subscriber_subscribe_button, { dialog, id ->
                         // TODO Search in Fb API if there is an ID for the provided string.
                         // If yes, add the ID as Organizer, If no, display error message
 
-                        val dialogView = layoutInflater.inflate(R.layout.subscribe_dialog, eventListSwypeToRefresh, false)
                         val editText = dialogView.findViewById<View>(R.id.dialogOrganizer) as EditText
                         val organizersName = editText.text.toString()
                         val persistor = OrganizerKeyPersistor()
@@ -56,7 +56,11 @@ class EventListActivity : AppCompatActivity() {
         val persistor = OrganizerKeyPersistor()
         Log.d(TAG, "Keys: " +persistor.getPersistedKeys(this).joinToString())
 
-        val organizer = persistor.getPersistedKeys(this).get(0)
+        val organizer = if (!persistor.isEmpty(this)) {
+            persistor.getPersistedKeys(this).get(0)
+        } else {
+            "BerghainPanoramaBarOfficial";
+        }
         ModelProvider.provideEvents (organizer){
             eventListAdapter.items = it
             eventListSwypeToRefresh.isRefreshing = false

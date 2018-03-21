@@ -22,7 +22,7 @@ class OrganizerKeyPersistor {
 
     fun persistKey(context: Context, key: String) {
         val keys = getPersistedKeys(context)
-        if(!key.contains(key)) {
+        if(!keys.contains(key)) {
             keys.add(key)
             persistKeyList(context, keys)
         }
@@ -32,6 +32,10 @@ class OrganizerKeyPersistor {
         val keys = getPersistedKeys(context)
         keys.remove(id)
         persistKeyList(context, keys)
+    }
+
+    fun isEmpty(context: Context) : Boolean {
+        return getPersistedKeys(context).size < 1
     }
 
     private fun persistKeyList(context: Context, keys: ArrayList<String>) {

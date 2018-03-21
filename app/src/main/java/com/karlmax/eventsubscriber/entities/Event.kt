@@ -22,10 +22,20 @@ data class Event(val id: Long,
 
     private fun reformatDate(time: String?): String {
         return time?.let {
-            val df = SimpleDateFormat("yyyy-mm-dd'T'HH:mm:ssZ", Locale.ENGLISH)
+            val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH)
             val cal = Calendar.getInstance(Locale.ENGLISH)
             cal.timeInMillis = df.parse(it).time
             DateFormat.format("dd.MM.yyyy hh:mm", cal).toString()
         } ?: ""
+    }
+
+    public fun getDateAsCalendar(time: String?): Calendar? {
+        return time?.let {
+            val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH)
+            val cal = Calendar.getInstance(Locale.ENGLISH)
+            cal.timeInMillis = df.parse(it).time
+            DateFormat.format("dd.MM.yyyy hh:mm", cal)
+            cal
+        }
     }
 }

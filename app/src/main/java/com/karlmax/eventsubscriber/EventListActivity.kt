@@ -38,6 +38,7 @@ class EventListActivity : AppCompatActivity() {
                         val organizersName = editText.text.toString()
                         val persistor = OrganizerKeyPersistor()
                         persistor.persistKey(this, organizersName)
+                        updateEventList()
                     }).show()
         }
 
@@ -54,16 +55,21 @@ class EventListActivity : AppCompatActivity() {
 
     private fun updateEventList() {
         val persistor = OrganizerKeyPersistor()
-        Log.d(TAG, "Keys: " +persistor.getPersistedKeys(this).joinToString())
+        Log.d(TAG, "Stored keys: " +persistor.getPersistedKeys(this).joinToString())
 
-        val organizer = if (!persistor.isEmpty(this)) {
-            persistor.getPersistedKeys(this).get(0)
+        if (!persistor.isEmpty(this)) {
+            val organizer = persistor.getPersistedKeys(this)[0]
+            ModelProvider.provideEvents (organizer){
+                if (eventListAdapter.items.isEmpty()) {
+                    eventListAdapter.items = it
+                } else {
+                    eventListAdapter.items.addAll(it)
+                }
+                eventListSwypeToRefresh.isRefreshing = false
+                eventListAdapter.notifyDataSetChanged()
+            }
         } else {
-            "BerghainPanoramaBarOfficial";
-        }
-        ModelProvider.provideEvents (organizer){
-            eventListAdapter.items = it
-            eventListSwypeToRefresh.isRefreshing = false
+            Log.d(TAG, "There are no organizers -> The list is empty")
         }
     }
 }

@@ -6,7 +6,6 @@ import com.karlmax.eventsubscriber.BuildConfig
 import com.karlmax.eventsubscriber.EventListActivity
 import com.karlmax.eventsubscriber.entities.Event
 import com.karlmax.eventsubscriber.entities.EventContainer
-import com.karlmax.eventsubscriber.entities.EventOrganizer
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,19 +27,18 @@ object FacebookApiImplementation {
 
         val facebookGraphAPI = retrofit.create(FacebookApi::class.java)
 
-        val call: Call<EventContainer<EventOrganizer>> = facebookGraphAPI.getOrganizersId(
-                type = "place",
+        val call: Call<EventContainer<Event>> = facebookGraphAPI.getEventsFromOrganizer(
                 organizersName = organizersName,
-                fields = "name,events",
+                fields = "description,end_time,name,place,id,start_time",
                 apiaccessToken = BuildConfig.FacebookDevToken)
-        call.enqueue(object : Callback<EventContainer<EventOrganizer>> {
-            override fun onResponse(call: Call<EventContainer<EventOrganizer>>?, response: Response<EventContainer<EventOrganizer>>?) {
+
+        call.enqueue(object : Callback<EventContainer<Event>> {
+            override fun onResponse(call: Call<EventContainer<Event>>?, response: Response<EventContainer<Event>>?) {
                 if (response !=null && response.isSuccessful()) {
                     val data = response.body()
                     if (data != null) {
-                        Log.d(EventListActivity.TAG, "The organizer: " + data.data.get(0).name + " has the id: " + data.data.get(0).id)
-                        Log.d(EventListActivity.TAG, "The first event has the name: " + data.data.get(0).events.data.get(0).name)
-                        listener(data.data.get(0).events.data as ArrayList<Event>)
+                        Log.d(EventListActivity.TAG, "The first event has the name: " + data.data[0].name)
+                        listener(data.data as ArrayList<Event>)
                     } else {
                         Log.e(EventListActivity.TAG, "The organizer is null")
                     }
@@ -51,7 +49,7 @@ object FacebookApiImplementation {
                 }
             }
 
-            override fun onFailure(call: Call<EventContainer<EventOrganizer>>?, t: Throwable?) {
+            override fun onFailure(call: Call<EventContainer<Event>>?, t: Throwable?) {
                 Log.e(EventListActivity.TAG, "onFailure: " + t.toString())
             }
 

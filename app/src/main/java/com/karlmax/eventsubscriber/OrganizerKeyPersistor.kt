@@ -2,6 +2,9 @@ package com.karlmax.eventsubscriber
 
 import android.content.Context
 
+/**
+ * Manages the organizers' name-IDs in the SharedPreferences.
+ */
 class OrganizerKeyPersistor {
 
     companion object {

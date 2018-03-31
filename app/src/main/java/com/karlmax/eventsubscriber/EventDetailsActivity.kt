@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity
 import com.karlmax.eventsubscriber.entities.Event
 import kotlinx.android.synthetic.main.activity_event_details.*
 
+/**
+ * Display all the information of an [Event].
+ */
 class EventDetailsActivity : AppCompatActivity() {
 
     companion object {

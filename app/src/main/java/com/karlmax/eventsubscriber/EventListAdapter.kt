@@ -8,6 +8,9 @@ import com.karlmax.eventsubscriber.entities.Event
 import kotlinx.android.synthetic.main.item_event_list.view.*
 import java.util.*
 
+/**
+ * The adapter for the list of [Event].
+ */
 class EventListAdapter(private val listener: (Event) -> Unit) : RecyclerView.Adapter<EventListViewHolder>() {
 
     var items = ArrayList<Event>()

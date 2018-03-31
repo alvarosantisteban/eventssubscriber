@@ -21,11 +21,11 @@ interface FacebookApi {
     fun getOrganizersId(@Query("type") type: String,
                         @Query("q") organizersName: String,
                         @Query("fields") fields: String,
-                        @Query("access_token") apiaccessToken: String): Call<EventContainer<EventOrganizer>>
+                        @Query("access_token") apiAccessToken: String): Call<EventContainer<EventOrganizer>>
 
     @GET("{organizersName}/events")
     fun getEventsFromOrganizer(
             @Path("organizersName") organizersName: String,
             @Query("fields") fields: String,
-            @Query("access_token") apiaccessToken: String): Call<EventContainer<Event>>
+            @Query("access_token") apiAccessToken: String): Call<EventContainer<Event>>
 }

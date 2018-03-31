@@ -7,6 +7,9 @@ import com.karlmax.eventsubscriber.R
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * A Facebook Event.
+ */
 data class Event(val id: Long,
                  val name: String,
                  val description: String,

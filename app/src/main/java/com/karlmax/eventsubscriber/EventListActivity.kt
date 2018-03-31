@@ -12,6 +12,10 @@ import android.widget.EditText
 import kotlinx.android.synthetic.main.activity_event_list.*
 import kotlinx.android.synthetic.main.content_event_list.*
 
+/**
+ * Displays a list of the [Event]s organised from the [EventOrganizer] added through the FAB.
+ * The events are retrieved from Facebook's Graph API Explorer.
+ */
 class EventListActivity : AppCompatActivity() {
 
     companion object {
@@ -53,6 +57,10 @@ class EventListActivity : AppCompatActivity() {
         updateEventList()
     }
 
+    /**
+     * Updates the list of events by emptying the list and asking the API for all the current events
+     * of the persisted organisers.
+     */
     private fun updateEventList() {
         val persistor = OrganizerKeyPersistor()
         Log.d(TAG, "Stored keys: " +persistor.getPersistedKeys(this).joinToString())

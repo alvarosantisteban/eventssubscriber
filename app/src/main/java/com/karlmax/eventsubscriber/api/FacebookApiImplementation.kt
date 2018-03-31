@@ -30,7 +30,7 @@ object FacebookApiImplementation {
         val call: Call<EventContainer<Event>> = facebookGraphAPI.getEventsFromOrganizer(
                 organizersName = organizersName,
                 fields = "description,end_time,name,place,id,start_time",
-                apiaccessToken = BuildConfig.FacebookDevToken)
+                apiAccessToken = BuildConfig.FacebookDevToken)
 
         call.enqueue(object : Callback<EventContainer<Event>> {
             override fun onResponse(call: Call<EventContainer<Event>>?, response: Response<EventContainer<Event>>?) {

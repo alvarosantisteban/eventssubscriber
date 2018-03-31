@@ -1,7 +1,8 @@
 package com.karlmax.eventsubscriber.entities
 
-import com.google.gson.annotations.SerializedName
-
+/**
+ * The info of an organizer of [Event].
+ */
 data class EventOrganizer(val id: Long,
                           val name: String,
                           val address: String,

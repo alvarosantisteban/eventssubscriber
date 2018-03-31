@@ -58,15 +58,20 @@ class EventListActivity : AppCompatActivity() {
         Log.d(TAG, "Stored keys: " +persistor.getPersistedKeys(this).joinToString())
 
         if (!persistor.isEmpty(this)) {
-            val organizer = persistor.getPersistedKeys(this)[0]
-            ModelProvider.provideEvents (organizer){
-                if (eventListAdapter.items.isEmpty()) {
-                    eventListAdapter.items = it
-                } else {
-                    eventListAdapter.items.addAll(it)
+            // Empty the adapter before getting the new events
+            eventListAdapter.items.clear()
+
+            val organizers = persistor.getPersistedKeys(this)
+            for (organizer: String in organizers) {
+                ModelProvider.provideEvents(organizer) {
+                    if (eventListAdapter.items.isEmpty()) {
+                        eventListAdapter.items = it
+                    } else {
+                        eventListAdapter.items.addAll(it)
+                    }
+                    eventListSwypeToRefresh.isRefreshing = false
+                    eventListAdapter.notifyDataSetChanged()
                 }
-                eventListSwypeToRefresh.isRefreshing = false
-                eventListAdapter.notifyDataSetChanged()
             }
         } else {
             Log.d(TAG, "There are no organizers -> The list is empty")

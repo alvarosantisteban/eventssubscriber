@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import kotlinx.android.synthetic.main.activity_event_list.*
@@ -83,6 +85,21 @@ class EventListActivity : AppCompatActivity() {
             }
         } else {
             Log.d(TAG, "There are no organizers -> The list is empty")
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.events_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.goToManageOrganizersMenuAction -> {
+                startActivity(Intent(this, OrganizersActivity::class.java))
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
         }
     }
 }

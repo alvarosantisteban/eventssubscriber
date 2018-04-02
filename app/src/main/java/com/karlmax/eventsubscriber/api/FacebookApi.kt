@@ -28,4 +28,10 @@ interface FacebookApi {
             @Path("organizersName") organizersName: String,
             @Query("fields") fields: String,
             @Query("access_token") apiAccessToken: String): Call<EventContainer<Event>>
+
+    @GET("{organizersName}")
+    fun getInfoFromOrganizer(
+            @Path("organizersName") organizersName: String,
+            @Query("fields") fields: String,
+            @Query("access_token") apiAccessToken: String): Call<EventOrganizer>
 }

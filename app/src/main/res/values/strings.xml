@@ -9,4 +9,6 @@
     <string name="event_start_date">start at %1$s</string>
     <string name="event_end_date">end at %1$s</string>
     <string name="event_address">%1$s\n%2$s\n%3$s %4$s\n%5$s</string>
+    <string name="menu_action_go_to_manage_organizers">Manage organizers</string>
+    <string name="manage_organizers_bar_title">Manage event\'s organizers</string>
 </resources>
